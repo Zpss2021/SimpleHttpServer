@@ -1,0 +1,136 @@
+.bgc {
+	width: 100px;
+	height: 100px;
+	float: left;
+	margin: 10px;
+}
+
+.div1 {
+	background-color: orangered;
+	/* 背景颜色
+		取值：关键字、rgb()、rgba()、十六进制
+		默认：透明 rgba(0, 0, 0, 0) transparent
+	*/
+}
+
+.div2 {
+	background-color: #FFFF00;
+}
+
+/* 	   @父子级标签，子级浮动而父级未设置高度时，之后的标准流盒子会受影响
+	   @解决方法：清除浮动
+	   清除浮动的方法：
+	   --1.给父元素添加高度
+	   --2.额外标签法：在父元素内容最后添加一个(空)块级元素并设置clear:both
+	   --3.单伪元素清除法（父元素::after）
+	   --4.双伪元素清除法（父元素::before + 父元素::after）(也可解决外边距塌陷)
+	   --5.overflow法(父元素：overflow:hidden)
+*/
+
+/* 清除浮动-额外标签法 */
+.float_clear {
+	clear: both;
+	/* 清除浮动
+		取值：left right both
+	*/
+}
+
+.div3 {
+	background-color: rgb(0, 255, 255);
+}
+
+.div4 {
+	background-color: rgba(255, 0, 255, 50%);
+	/* @50%也可以简写成 0.5 或 .5 )*/
+}
+
+/* 清除浮动-单伪元素清除法 */
+.clearfix_single::after {
+	content: '';
+	display: block;
+	clear: both;
+	/* 以下两行可选（为兼容旧浏览器）*/
+	height: 0;
+	visibility: hidden;
+}
+
+/* 清除浮动(&解决外边距塌陷)-双伪元素清除法
+	.clearfix_double:before：防止外边距塌陷(block->table)
+	--@外边距塌陷：父子关系的两块级标签，子级加margin会影响父级的位置
+	.clearfix_double:after：起浮动清除作用
+*/
+.clearfix_double::before {
+	content: '';
+	display: table;
+}
+.clearfix_double::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.bgi {
+	width: 150px;
+	height: 150px;
+	float: left;
+	color: red;
+	background-color: wheat;
+	margin: 10px;
+}
+
+.div5 {
+	background-image: url('../img/baidu_icon.png');
+	/* 背景图片
+		默认效果：平铺
+		取值：url()
+	 */
+	/* @bg-color与bg-img同时存在时，img在上 */
+}
+
+.div6 {
+	background-image: url('../img/baidu_icon.png');
+	background-repeat: repeat-x;
+	/* 背景重复
+		默认效果： repeat 平铺
+		取值：repeat no-repeat repeat-x repeat-y
+	 */
+}
+
+.div7 {
+	background-image: url('../img/baidu_icon.png');
+	background-repeat: repeat-y;
+	background-position: center;
+	/* 背景位置
+		默认值：left top 或 0 0
+		取值：
+			- 坐标 x y
+			- 方位名词
+			-- 水平left、center、right
+			-- 垂直top center bottom
+			@各格式可混合使用
+	 */
+}
+
+.div8 {
+	background-image: url('../img/baidu_icon.png');
+	background-repeat: no-repeat;
+	background-position: 100px 100px;
+}
+
+.top {
+	width: fit-content;
+	padding: 2em;
+	background-color: #ABE2AB;
+	/* 清除浮动-overflow法 */
+	overflow: hidden;
+}
+
+.bottom {
+	width: 400px;
+	height: 400px;
+	background: cornflowerblue url(../img/minecraft_alpha_pic.jpg) repeat-x bottom center/ 100px;
+	/* 背景复合属性
+		格式：background:<color> <image> <repeat> <position> [/<bg-size>] @不限顺序
+		@复合属性与单独属性搭配使用：要么写在复合属性里面，要么写在复合属性下面
+	 */
+}

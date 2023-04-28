@@ -1,0 +1,119 @@
+/* @CSS属性设置顺序：浮动/display/定位、盒子模型、文字样式 */
+.big_box {
+	width: 200px;
+	height: 200px;
+}
+
+.middle_box {
+	width: 200px;
+	height: 150px;
+}
+
+.small_box {
+	width: 200px;
+	height: 100px;
+}
+
+.pink {
+	background-color: pink;
+}
+
+.skyblue {
+	background-color: skyblue;
+}
+
+.green {
+	background-color: green;
+}
+
+/* 定位 position
+		--属性值：
+			static		静态定位（默认）
+			relative 	相对定位
+			absolute 	绝对定位
+			fixed 		固定定位
+		--相关属性：left right top bottom z-index 配合实现定位
+			@left&top 优先级高于 right&bottom
+		    @z-index：用于设置层级，值越大越靠上，默认为0
+		----固定定位：相对于浏览器窗口进行定位
+		    @特点：
+				改变位置参照浏览器窗口；
+				相对于浏览器可视区域进行移动；
+				不占有原来的位置（脱离文档流）；
+				不具有标签原有的显示特点（改变原标签的显示模式，具备inline-block的特点）；
+*/
+
+.left_top {
+	position: fixed;
+	left: 0;
+	top: 0;
+}
+
+.right_bottom {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+}
+
+.right_center {
+	position: fixed;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+/* 元素层级问题
+		--不同布局方式元素的层级关系：
+			标准流 < 浮动(float) < 定位(position)
+		--不同定位之间的层级关系：
+			相对、绝对、固定定位之间的层级关系：
+				默认相同；
+				HTML中写在后面的元素层级高于前面的元素（后来者居上）；
+				z-index属性可以改变层级关系（必须配合定位使用）
+*/
+
+.abs {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*
+	现象：浏览器遇到行内/行内块标签，会将其当作文字处理
+	结果：默认文字是按基线对齐的，导致显示上不同元素垂直方向不对齐
+	解决方案：设置垂直对齐方式
+		--vertical-align属性
+			--属性值：
+				baseline		基线对齐（默认）
+				top				顶部对齐
+				bottom			底部对齐
+				middle			中间对齐
+			--注意：
+				1.只有行内/行内块元素才能设置垂直对齐方式
+				2.只有设置了高度的行内/行内块元素才能设置垂直对齐方式
+*/
+
+input {
+	height: 50px;
+}
+
+.adapt_box {
+	width: 200px;
+}
+
+.vertical_align_test input {
+	box-sizing: border-box; /* 让行内块元素的宽度包含padding */
+	vertical-align: middle; /* 实现两个行内块元素的垂直居中对齐 */
+}
+
+.vertical_align_test img {
+	vertical-align: middle; /* 实现两个行内块元素的垂直居中对齐 */
+}
+
+.block_display {
+	display: block;
+}
+
+.green.big_box {
+	line-height: 200px;
+}

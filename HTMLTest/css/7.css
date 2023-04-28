@@ -1,0 +1,102 @@
+.nav a {
+	text-decoration: none;
+	width: 100px;
+	height: 50px;
+	background-color: cornflowerblue;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	line-height: 50px;
+}
+
+.nav a:hover {
+	background-color: #ABE2AB;
+}
+
+.nav_mc a {
+	text-decoration: none;
+	width: 120px;
+	height: 58px;
+	background: url('../img/minecraft_alpha_pic.jpg');
+	display: inline-block;
+	color: #DDD;
+	text-align: center;
+	line-height: 58px;
+}
+
+.nav_mc a:hover {
+	text-decoration: none;
+	width: 120px;
+	height: 58px;
+	background: url('../img/baidu_icon.png');
+	display: inline-block;
+	color: #000;
+	text-align: center;
+	line-height: 58px;
+}
+
+/*
+	优先级：    继承
+	 		< 通配符选择器 (*{})
+	 		< 标签选择器 (xxx{})
+	 		< 类选择器 (.obj{})
+	 		< id选择器 (#tx}t{})
+	 		< 行内式 (<xxx style="..."/>)
+	 		< !important
+	 @规律：越精准选择的选择器优先级越高
+ */
+
+
+.outer {
+	height: 100px;
+	width: 300px;
+	color: yellow;
+	background-color: gray;
+}
+
+/* 继承 */
+/* inner继承了outer的color:yellow*/
+.inner {
+	height: 80px;
+	width: 200px;
+	background-color: darkgrey;
+}
+
+/* 通配符选择器 */
+/* 覆盖了inner所继承outer的color:yellow -> red */
+* {color: red;}
+
+/* 标签选择器 */
+/* 覆盖了通配符设置的color:red -> green(最终) */
+div {color: green;}
+
+/* 类选择器 */
+/* 覆盖了 <p class="txt" ...>从<body>所继承的默认font-size->20px */
+.txt {font-size: 20px;}
+
+/* id选择器 */
+/* 覆盖了类选择器.txt所设置的font-size:20px -> 10px */
+#px10 {font-size: 10px;}
+#px20 {font-size: 20px;}
+
+/* 行内式(见.html) */
+
+/* !important */
+/* 覆盖了行内式(见.html)设置的font-size:5px -> 50px */
+.big{
+	font-size: 30px !important;
+	/* !important用在属性值后，分号前
+		使该属性在作用于该标签的所有选择器的所有相同属性中优先级最高 */
+}
+
+/*
+	权重叠加计算（适用于复合选择器比较优先级）
+	"特异性"规则 格式：
+		("复合选择器") --> ("id选择器个数", "类选择器个数", "标签选择器个数")
+		@每一级之间不存在进位
+	比较规则：
+		从前往后比较，大者权重高；
+		若所有数字相同，则考虑层叠性（靠后的生效）
+		行内样式优先于复合选择器
+		!important权重最高
+ */

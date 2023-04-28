@@ -1,0 +1,101 @@
+.size_50px {
+	font-size: 50px;
+	/* 文字大小 :
+		绝对大小值: xx-small x-small small medium large x-large xx-large
+		相对大小值（相对父元素）:larger smaller
+		长度值: px（pixels 像素） em（相对父元素） rem（相对根元素）
+		百分比值： % （相对父元素）
+	*/
+}
+
+.weight_bold {
+	font-weight: bold;
+	/* 文字粗细
+		取值： 100 200 300 400(normal) 500 600 700(bold) 800 900
+	 	@不是所有字体都有100-900九种粗细，因此更多用normal/bold & 400/700控制字体粗细
+	 */
+}
+
+.style_italic {
+	font-style: italic;
+	/* 	文字样式
+		normal 正常 / italic 斜体（使用字体自带效果） / oblique 倾斜
+	*/
+}
+
+.family_song {
+	font-family: 宋体;
+	/* 文字字体 */
+}
+
+.family_hei {
+	font-family: 黑体, 微软雅黑, "Arial Black", sans-serif;
+	/* 设定多个字体，用逗号分割
+		@使用优先级从前到后
+		@在最后添加通用字体,如serif（有衬线任意字体），sans-serif（无衬线任意字体）
+		@字体名有空格分开的用双引号包裹
+	*/
+}
+
+.fonts {
+	font-family: 黑体; /* 被font覆盖不会起作用 */
+	font: italic bold 20px 宋体;
+	/* 字体复合属性 font
+		格式：（只能省略前两个）
+		font: 斜体、粗体、大小、字体
+		font: style weight 	size family
+		font: 		weight 	size family
+		font: style 		size family
+		font:  				size family
+	 */
+	/*	其他形式 font: style weight size/line-height family;	*/
+	font-style: normal;
+	/* @CSS 层叠特性：生效的是最下面的 */
+	/* @因此font复合属性与单一属性同时设置时，将单一属性放在下面 */
+}
+
+.indent_2em {
+	text-indent: 2em;
+}
+
+.align_center {
+	text-align: center;
+	/* 段落对齐：left 左对齐、 center 居中对齐、 right 右对齐*/
+}
+
+.align_right {
+	text-align: right;
+}
+
+.decoration_underline {
+	text-decoration: underline;
+	/* 文本修饰：
+		underline 下划线
+		line-through 删除线
+		overline 上划线
+		none 无修饰，常用于去除超链接下划线
+	*/
+}
+
+.decoration_line_through {
+	text-decoration: line-through;
+}
+
+.decoration_overline {
+	text-decoration: overline;
+}
+
+.decoration_none {
+	text-decoration: none;
+}
+
+.line_height_30px {
+	font-size: 20px;
+	line-height: 1.5;
+	/* 行高
+		内容：normal、长度、数字、百分比、em(不推荐)
+		行距 = line-height - font-size
+		- 这里行高 line-height = 1.5 * font-size = 30px
+		- 行距 = line-height - font-size = 30px - 20px = 10px
+	 */
+}
