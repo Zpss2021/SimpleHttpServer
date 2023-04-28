@@ -1,6 +1,7 @@
 package info.zpss.SimpleHttpServer;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
@@ -14,62 +15,27 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(),
-                    StandardCharsets.UTF_8));
-            OutputStream out = socket.getOutputStream();
-            String line = in.readLine();
-            if (line == null) {
-                socket.close();
-                return;
+            InputStreamReader in = new InputStreamReader(socket.getInputStream(),
+                    StandardCharsets.UTF_8);
+            StringBuilder sb = new StringBuilder();
+            char[] buffer = new char[1024];
+            int len;
+            while (true) {
+                len = in.read(buffer);
+                if (len == -1)
+                    break;
+                sb.append(buffer, 0, len);
+                if (len < 1024)
+                    break;
             }
-            System.out.println("[Received] " + line);
-            String filePath = line.split(" ")[1].substring(1);
-            if (filePath.equals(""))
-                filePath = "index.html";
-            try (FileInputStream fin = new FileInputStream(filePath)) {
-                out.write("HTTP/1.1 200 OK\r\n".getBytes(StandardCharsets.UTF_8));
-                String sType = filePath.substring(filePath.lastIndexOf(".") + 1);
-                switch (sType) {
-                    case "css":
-                        out.write("Content-Type: text/css; charset=utf-8\r\n".getBytes(StandardCharsets.UTF_8));
-                        break;
-                    case "js":
-                        out.write("Content-Type: text/javascript; charset=utf-8\r\n".getBytes(StandardCharsets.UTF_8));
-                        break;
-                    case "png":
-                        out.write("Content-Type: image/png\r\n".getBytes(StandardCharsets.UTF_8));
-                        break;
-                    case "jpg":
-                        out.write("Content-Type: image/jpeg\r\n".getBytes(StandardCharsets.UTF_8));
-                        break;
-                    case "gif":
-                        out.write("Content-Type: image/gif\r\n".getBytes(StandardCharsets.UTF_8));
-                        break;
-                    case "htm":
-                    case "html":
-                    default:
-                        out.write("Content-Type: text/html\r\n".getBytes(StandardCharsets.UTF_8));
-                        break;
-                }
-                out.write("\r\n".getBytes(StandardCharsets.UTF_8));
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = fin.read(buffer)) != -1) {
-                    out.write(buffer, 0, len);
-                    out.flush();
-                }
-            } catch (FileNotFoundException e) {
-                out.write("HTTP/1.1 404 Not Found\r\n".getBytes(StandardCharsets.UTF_8));
-                out.write("Content-Type: text/html\r\n".getBytes(StandardCharsets.UTF_8));
-                out.write("\r\n".getBytes(StandardCharsets.UTF_8));
-                out.write("<h1>404 Not Found</h1>".getBytes(StandardCharsets.UTF_8));
-            } finally {
-                out.close();
-                in.close();
-                socket.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Request request = new Request.Builder()
+                    .socket(socket)
+                    .requestStr(sb.toString())
+                    .build();
+            System.out.println("[Received] " + request.getMethod() + " " + request.getPath());
+            SimpleHttpServer.getInstance().handleRequest(request);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

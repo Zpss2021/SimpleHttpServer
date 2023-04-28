@@ -1,5 +1,10 @@
+import info.zpss.SimpleHttpServer.SimpleHttpServer;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        SimpleHttpServer server = SimpleHttpServer.getInstance();
+        server.setPort(60196);
+        server.setRootDir("HTMLTest");
+        server.start();
     }
 }
