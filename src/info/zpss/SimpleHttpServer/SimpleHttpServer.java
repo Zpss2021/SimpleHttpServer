@@ -5,7 +5,7 @@ import info.zpss.SimpleHttpServer.HttpObj.*;
 import java.io.*;
 import java.net.ServerSocket;
 
-public class SimpleHttpServer {
+public class SimpleHttpServer implements Arguable {
     private int port;
     private String rootDir;
     private RouteMap routeMap;
@@ -14,7 +14,7 @@ public class SimpleHttpServer {
     static {
         INSTANCE = new SimpleHttpServer();
         INSTANCE.port = 80;
-        INSTANCE.rootDir = "/";
+        INSTANCE.rootDir = System.getProperty("user.dir");
         INSTANCE.routeMap = new RouteMap();
         INSTANCE.initRouteMap();
     }
@@ -31,7 +31,11 @@ public class SimpleHttpServer {
     }
 
     public void setRootDir(String rootDir) {
-        this.rootDir = rootDir;
+        this.rootDir = System.getProperty("user.dir") + File.separatorChar + rootDir;
+    }
+
+    public void setAbsoluteRootDir(String absoluteRootDir) {
+        this.rootDir = absoluteRootDir;
     }
 
     public void handleRequest(Request request) {
@@ -49,11 +53,11 @@ public class SimpleHttpServer {
 
     private void initRouteMap() {
         RequestHandler handleIndex = request -> {
-            File file = new File(rootDir + "/index.html");
+            File file = new File(rootDir + File.separatorChar + "index.html");
             return getResponse(file);
         };
         RequestHandler handleDefault = request -> {
-            File file = new File(rootDir + request.getPath());
+            File file = new File(rootDir + File.separatorChar + request.getPath());
             if (!file.exists())
                 return new Response.Builder()
                         .status(HttpStatus.NOT_FOUND)
@@ -66,7 +70,7 @@ public class SimpleHttpServer {
         addRoute(new Route(HttpMethod.GET, "/index.html"), handleIndex);
         addRoute(new Route(HttpMethod.GET, "/*"), handleDefault);
         addRoute(new Route(HttpMethod.GET, "/path"), request -> {
-            String path = ClassLoader.getSystemResource("").getPath();
+            String path = System.getProperty("user.dir");
             return new Response.Builder()
                     .status(HttpStatus.OK)
                     .header(HttpContentType.TEXT_HTML)
@@ -99,15 +103,19 @@ public class SimpleHttpServer {
 
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Server is listening on port " + port);
-            while (true)
+            System.out.println("HTTP Server is listening on port " + port);
+            while (Thread.currentThread().isAlive())
                 new ServerThread(serverSocket.accept()).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void stop() {
-        // TODO
+    @Override
+    public void init(String[] args) {
+        String portStr = Arguable.stringInArgs(args, "-p", "--port");
+        if (portStr != null)
+            port = Integer.parseInt(portStr);
+        System.out.println("HTTP Port: " + port);
     }
 }
