@@ -48,7 +48,7 @@ class Response {
             this.headers.put("Connection", "close");
             this.headers.put("Content-Type", "text/html; charset=utf-8");
             this.headers.put("Content-Length", "0");
-            this.headers.put("Content-Security-Policy", "default-src 'self'");
+            this.headers.put("Content-Security-Policy", "default-src 'self' 'unsafe-inline'");
             this.headers.put("X-XSS-Protection", "1; mode=block");
             this.headers.put("X-Frame-Options", "DENY");
             this.headers.put("X-Content-Type-Options", "nosniff");

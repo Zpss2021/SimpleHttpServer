@@ -122,12 +122,12 @@ public class SimpleHttpServer implements Arguable {
         String hostStr = Arguable.stringInArgs(args, "-H", "--host");
         String portStr = Arguable.stringInArgs(args, "-P", "--port");
         if (hostStr != null) {
-            System.out.println("HTTP Host: " + host);
             host = hostStr;
+            System.out.println("HTTP Host: " + host);
         }
         if (portStr != null) {
-            System.out.println("HTTP Port: " + port);
             port = Integer.parseInt(portStr);
+            System.out.println("HTTP Port: " + port);
         }
     }
 }
