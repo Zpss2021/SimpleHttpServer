@@ -112,6 +112,11 @@ public class Request {
             if (this.path.contains(".."))   // 防止路径穿越，例如：/index.html/../../etc/passwd
                 return null;
 
+            if (SimpleHttpServer.getInstance().getHost() != null)
+                if (this.headers.containsKey("Referer"))    // 防止盗链，例如：Referer: http://evil.com
+                    if (!this.headers.get("Referer").startsWith(SimpleHttpServer.getInstance().getHost()))
+                        return null;
+
             return new Request(this);
         }
     }

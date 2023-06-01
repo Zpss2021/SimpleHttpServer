@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.ServerSocket;
 
 public class SimpleHttpServer implements Arguable {
+    private String host;
     private int port;
     private String rootDir;
     private RouteMap routeMap;
@@ -13,6 +14,7 @@ public class SimpleHttpServer implements Arguable {
 
     static {
         INSTANCE = new SimpleHttpServer();
+        INSTANCE.host = null;
         INSTANCE.port = 80;
         INSTANCE.rootDir = System.getProperty("user.dir");
         INSTANCE.routeMap = new RouteMap();
@@ -24,6 +26,10 @@ public class SimpleHttpServer implements Arguable {
 
     public static SimpleHttpServer getInstance() {
         return INSTANCE;
+    }
+
+    public String getHost() {
+        return host;
     }
 
     public void setPort(int port) {
@@ -113,9 +119,15 @@ public class SimpleHttpServer implements Arguable {
 
     @Override
     public void init(String[] args) {
-        String portStr = Arguable.stringInArgs(args, "-p", "--port");
-        if (portStr != null)
+        String hostStr = Arguable.stringInArgs(args, "-H", "--host");
+        String portStr = Arguable.stringInArgs(args, "-P", "--port");
+        if (hostStr != null) {
+            System.out.println("HTTP Host: " + host);
+            host = hostStr;
+        }
+        if (portStr != null) {
+            System.out.println("HTTP Port: " + port);
             port = Integer.parseInt(portStr);
-        System.out.println("HTTP Port: " + port);
+        }
     }
 }
