@@ -114,9 +114,12 @@ public class Request {
 
             if (SimpleHttpServer.getInstance().getHost() != null)
                 if (this.headers.containsKey("Referer"))    // 防止盗链，例如：Referer: http://evil.com
-                    if (!this.headers.get("Referer").startsWith(SimpleHttpServer.getInstance().getHost()))
+                    if (!this.headers.get("Referer").contains(SimpleHttpServer.getInstance().getHost()))
                         return null;
 
+            if (this.headers.containsKey("Host"))
+                if (this.headers.get("Host").startsWith("uniwood.zpss.info") && this.path.equals("/index.html"))
+                    this.path = "/uniwood.html";
             return new Request(this);
         }
     }

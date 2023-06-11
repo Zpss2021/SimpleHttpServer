@@ -32,8 +32,12 @@ public class ServerThread extends Thread {
                     .socket(socket)
                     .requestStr(sb.toString())
                     .build();
-            System.out.println("[Received] " + request.getMethod() + " " + request.getPath());
-            SimpleHttpServer.getInstance().handleRequest(request);
+            if (request == null)
+                System.out.printf("[Received] Invalid request: \n%s\n%n", sb);
+            else {
+                System.out.println("[Received] " + request.getMethod() + " " + request.getPath());
+                SimpleHttpServer.getInstance().handleRequest(request);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

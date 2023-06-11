@@ -48,6 +48,7 @@ public class SimpleHttpServer implements Arguable {
         RequestHandler handler = routeMap.get(request.getMethod(), request.getPath());
         if (handler == null)
             handler = routeMap.get(HttpMethod.GET, "/*");
+        // TODO
         Response response = handler.handle(request);
         try (OutputStream out = request.getSocket().getOutputStream()) {
             out.write(response.toBytes());
